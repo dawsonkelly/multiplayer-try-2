@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjqnk8h7e4l81"]
+
+[ext_resource type="Texture2D" uid="uid://bd45dntpgk40s" path="res://sprites/icon.svg" id="1_4kkau"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4kkau"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vpdcx"]
+radius = 24.0208
+
+[node name="Bomb" type="RigidBody2D"]
+mass = 0.792
+
+[node name="BombSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_4kkau")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vpdcx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_4kkau")
