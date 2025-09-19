@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://clu0fnmc2wokj"]
+
+[sub_resource type="Curve" id="Curve_3oo6d"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_17npe"]
+curve = SubResource("Curve_3oo6d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3oo6d"]
+lifetime_randomness = 0.5
+spread = 180.0
+initial_velocity_min = 307.52
+initial_velocity_max = 669.59
+gravity = Vector3(0, 0, 0)
+scale_min = 20.0
+scale_max = 20.0
+scale_curve = SubResource("CurveTexture_17npe")
+
+[node name="Explosion" type="GPUParticles2D"]
+self_modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.520001, 0.520001)
+emitting = false
+amount = 50
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3oo6d")
