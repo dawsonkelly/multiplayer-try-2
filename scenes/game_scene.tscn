@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=4 uid="uid://bhw403dpsu1ua"]
+[gd_scene load_steps=6 format=4 uid="uid://bhw403dpsu1ua"]
 
 [ext_resource type="Script" uid="uid://li0avxjwfrc3" path="res://scripts/game_manager.gd" id="1_w5aja"]
+[ext_resource type="Script" uid="uid://be1mqf6nq6p5h" path="res://scripts/networks/network_manager.gd" id="1_ycayy"]
 [ext_resource type="Texture2D" uid="uid://dl8ef83f1t13" path="res://sprites/world_tileset.png" id="2_onqr8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ycayy"]
@@ -166,7 +167,11 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ycayy")
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_w5aja")
+
+[node name="NetworkManager" type="Node" parent="." node_paths=PackedStringArray("_players_spawn_node")]
+unique_name_in_owner = true
+script = ExtResource("1_ycayy")
+_players_spawn_node = NodePath("../Players")
 
 [node name="Node" type="Node" parent="."]
 script = ExtResource("1_w5aja")
@@ -175,8 +180,8 @@ script = ExtResource("1_w5aja")
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
-offset_right = 70.0
-offset_bottom = 47.0
+offset_right = 200.0
+offset_bottom = 120.0
 
 [node name="Panel" type="Panel" parent="MultiplayerHud"]
 layout_mode = 1
@@ -187,19 +192,76 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MultiplayerHud/Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Host" type="Button" parent="MultiplayerHud/Panel/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 20
 text = "Host Game"
 
-[node name="JoinAsPlayer2" type="Button" parent="MultiplayerHud/Panel/VBoxContainer"]
+[node name="JoinAsClient" type="Button" parent="MultiplayerHud/Panel/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "Join as Player 2"
+theme_override_font_sizes/font_size = 20
+text = "Join as Client"
+
+[node name="UseSteam" type="Button" parent="MultiplayerHud/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Use Steam
+"
+
+[node name="SteamHud" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_top = 120.0
+offset_right = 250.0
+offset_bottom = 370.0
+
+[node name="Panel" type="Panel" parent="SteamHud"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SteamHud/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -172.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HostP2PGame" type="Button" parent="SteamHud/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Host P2P Game"
+
+[node name="List Lobbies" type="Button" parent="SteamHud/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "List Lobbies"
+
+[node name="Lobbies" type="ScrollContainer" parent="SteamHud/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SteamHud/Panel/Lobbies"]
+layout_mode = 2
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cxiv574ojbvis")
@@ -217,4 +279,6 @@ tile_map_data = PackedByteArray("AAAOABsAAAAAAAAAAAAPABsAAAAAAAAAAAAQABsAAAAAAAA
 tile_set = SubResource("TileSet_bw6k5")
 
 [connection signal="pressed" from="MultiplayerHud/Panel/VBoxContainer/Host" to="Node" method="become_host"]
-[connection signal="pressed" from="MultiplayerHud/Panel/VBoxContainer/JoinAsPlayer2" to="Node" method="join_as_player_2"]
+[connection signal="pressed" from="MultiplayerHud/Panel/VBoxContainer/JoinAsClient" to="Node" method="join_as_client"]
+[connection signal="pressed" from="MultiplayerHud/Panel/VBoxContainer/UseSteam" to="Node" method="use_steam"]
+[connection signal="pressed" from="SteamHud/Panel/VBoxContainer/List Lobbies" to="Node" method="list_steam_lobbies"]
